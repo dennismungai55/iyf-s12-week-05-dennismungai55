@@ -748,6 +748,114 @@ taskStyle.textContent = `
 document.head.appendChild(taskStyle);
 
 
+(() => {
+    const form = document.getElementById("contact-form");
+    const nameInput = document.getElementById("name");
+    const emailInput = document.getElementById("email");
+    const message = document.getElementById("form-message");
+
+    if (!form || !nameInput || !emailInput) {
+        console.log("Contact form elements not found.");
+        return;
+    }
+
+    // Show an error message
+    function showError(input, errorMessage) {
+        input.classList.add("error");
+
+        let errorElement = input.nextElementSibling;
+
+        if (!errorElement || !errorElement.classList.contains("error-message")) {
+            errorElement = document.createElement("small");
+            errorElement.className = "error-message";
+            input.insertAdjacentElement("afterend", errorElement);
+        }
+
+        errorElement.textContent = errorMessage;
+    }
+
+    // Clear an error message
+    function clearError(input) {
+        input.classList.remove("error");
+
+        const errorElement = input.nextElementSibling;
+
+        if (errorElement && errorElement.classList.contains("error-message")) {
+            errorElement.remove();
+        }
+    }
+
+    // Validate name as the user types
+    nameInput.addEventListener("input", function(event) {
+        const value = event.target.value.trim();
+
+        if (value.length < 2) {
+            showError(nameInput, "Name must be at least 2 characters");
+        } else {
+            clearError(nameInput);
+        }
+    });
+
+    // Validate email as the user types
+    emailInput.addEventListener("input", function(event) {
+        const value = event.target.value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailRegex.test(value)) {
+            showError(emailInput, "Please enter a valid email");
+        } else {
+            clearError(emailInput);
+        }
+    });
+
+    // Check all fields before submission
+    function isValid(data) {
+        let valid = true;
+
+        if (data.name.trim().length < 2) {
+            showError(nameInput, "Name must be at least 2 characters");
+            valid = false;
+        } else {
+            clearError(nameInput);
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailRegex.test(data.email.trim())) {
+            showError(emailInput, "Please enter a valid email");
+            valid = false;
+        } else {
+            clearError(emailInput);
+        }
+
+        return valid;
+    }
+
+    // Handle form submission
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData);
+
+        console.log("Form data:", data);
+
+        if (isValid(data)) {
+            message.textContent = "Form submitted successfully!";
+            message.className = "success-message";
+
+            form.reset();
+            clearError(nameInput);
+            clearError(emailInput);
+        } else {
+            message.textContent = "Please correct the errors above.";
+            message.className = "error-message";
+        }
+    });
+
+    console.log("Task 10.4 form validation is ready!");
+})();
+
 
 
 
