@@ -1,1 +1,204 @@
+day 1
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Color Changer</title>
+</head>
+<body>
 
+    <h1>Welcome to My Website</h1>
+    <h2>About Me</h2>
+    <h3>My Projects</h3>
+
+    <button id="change-color">Change Heading Colors</button>
+
+    <script src="day1.js"></script>
+</body>
+</html>
+
+js
+const colorButton = document.getElementById("change-color");
+
+function randomColor() {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+
+    return color;
+}
+
+colorButton.addEventListener("click", function() {
+    const headings = document.querySelectorAll("h1, h2, h3");
+
+    headings.forEach(function(heading) {
+        heading.style.color = randomColor();
+    });
+});
+
+day 2
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dynamic Element Creator</title>
+</head>
+<body>
+
+    <h1>Paragraph Creator</h1>
+
+    <button id="add-paragraph">Add Paragraph</button>
+
+    <div id="paragraph-container"></div>
+
+    <script src="day2.js"></script>
+</body>
+</html>
+
+js
+
+const addButton = document.getElementById("add-paragraph");
+const container = document.getElementById("paragraph-container");
+
+let paragraphCount = 0;
+
+addButton.addEventListener("click", function() {
+    paragraphCount++;
+
+    const paragraph = document.createElement("p");
+    paragraph.textContent = "This is paragraph number " + paragraphCount;
+
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+
+    deleteButton.addEventListener("click", function() {
+        paragraph.remove();
+    });
+
+    paragraph.appendChild(deleteButton);
+    container.appendChild(paragraph);
+});
+
+
+day 3
+html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Remover</title>
+</head>
+<body>
+
+    <h1>My Image Gallery</h1>
+
+    <img src="https://placehold.co/200x150?text=Image+1" alt="First sample image">
+    <img src="https://placehold.co/200x150?text=Image+2" alt="Second sample image">
+    <img src="https://placehold.co/200x150?text=Image+3" alt="Third sample image">
+
+    <br><br>
+
+    <button id="remove-images">Remove Images</button>
+    <button id="toggle-images">Hide / Show Images</button>
+
+    <script src="day3.js"></script>
+</body>
+</html>
+
+
+js
+
+const removeButton = document.getElementById("remove-images");
+const toggleButton = document.getElementById("toggle-images");
+
+removeButton.addEventListener("click", function() {
+    const images = document.querySelectorAll("img");
+
+    images.forEach(function(image) {
+        image.remove();
+    });
+});
+
+toggleButton.addEventListener("click", function() {
+    const images = document.querySelectorAll("img");
+
+    images.forEach(function(image) {
+        image.hidden = !image.hidden;
+    });
+});
+
+
+day 4
+
+html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Content Copier</title>
+
+    <style>
+        .box {
+            border: 2px solid blue;
+            padding: 20px;
+            margin: 15px;
+            min-height: 100px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Content Copier</h1>
+
+    <div class="box" id="source">
+        <h2>Source Content</h2>
+        <p>This content will be copied to the target box.</p>
+    </div>
+
+    <button id="copy-button">Copy Content</button>
+
+    <div class="box" id="target">
+        <h2>Target Box</h2>
+        <p>Copied content will appear here.</p>
+    </div>
+
+    <script src="day4.js"></script>
+</body>
+</html>
+
+
+js
+
+const source = document.getElementById("source");
+const target = document.getElementById("target");
+const copyButton = document.getElementById("copy-button");
+
+copyButton.addEventListener("click", function() {
+    target.innerHTML = source.innerHTML;
+
+    console.log("Content copied successfully!");
+});
+
+// Bonus: Drag and drop
+source.draggable = true;
+
+source.addEventListener("dragstart", function(event) {
+    event.dataTransfer.setData("text/plain", source.innerHTML);
+});
+
+target.addEventListener("dragover", function(event) {
+    event.preventDefault();
+});
+
+target.addEventListener("drop", function(event) {
+    event.preventDefault();
+
+    const copiedContent = event.dataTransfer.getData("text/plain");
+
+    target.innerHTML = copiedContent;
+});
