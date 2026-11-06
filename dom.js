@@ -324,4 +324,431 @@ addNavItem("Portfolio", "/portfolio");
 ```
 
 
+// =====================================
+// TASK 10.1 - EXERCISE 1: BASIC EVENTS
+// =====================================
+
+// Create a button
+const button = document.createElement("button");
+
+button.textContent = "Click Me";
+
+document.body.appendChild(button);
+
+// Adding event listener
+button.addEventListener("click", function() {
+    console.log("Button clicked!");
+});
+
+// Arrow function
+button.addEventListener("click", () => {
+    console.log("Clicked again!");
+});
+
+// Named function
+function handleClick() {
+    console.log("Handled!");
+}
+
+button.addEventListener("click", handleClick);
+
+// Remove event listener
+button.removeEventListener("click", handleClick);
+
+
+
+// =====================================
+// EXERCISE 2: EVENT TYPES
+// =====================================
+
+// Select elements
+const element = document.querySelector(".container");
+const input = document.querySelector("#name");
+const form = document.querySelector("#contact-form");
+
+// Mouse events
+element.addEventListener("click", () => {
+    console.log("Container clicked!");
+});
+
+element.addEventListener("dblclick", () => {
+    console.log("Container double-clicked!");
+});
+
+element.addEventListener("mouseenter", () => {
+    console.log("Mouse entered container!");
+});
+
+element.addEventListener("mouseleave", () => {
+    console.log("Mouse left container!");
+});
+
+// Keyboard events
+input.addEventListener("keydown", () => {
+    console.log("Key pressed!");
+});
+
+input.addEventListener("keyup", () => {
+    console.log("Key released!");
+});
+
+// Form events
+form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    console.log("Form submitted!");
+});
+
+input.addEventListener("focus", () => {
+    console.log("Input selected!");
+});
+
+input.addEventListener("blur", () => {
+    console.log("Input lost focus!");
+});
+
+input.addEventListener("input", () => {
+    console.log("You typed:", input.value);
+});
+
+input.addEventListener("change", () => {
+    console.log("Input changed:", input.value);
+});
+
+// Window events
+window.addEventListener("load", () => {
+    console.log("Page loaded!");
+});
+
+window.addEventListener("resize", () => {
+    console.log("Window resized!");
+});
+
+window.addEventListener("scroll", () => {
+    console.log("Page scrolled!");
+});
+
+
+// =====================================
+// EXERCISE 3: CLICK COUNTER
+// =====================================
+
+// Create counter
+let count = 0;
+
+// Create heading
+const counterTitle = document.createElement("h2");
+counterTitle.textContent = "My Click Counter";
+
+// Create display
+const counterDisplay = document.createElement("h1");
+counterDisplay.textContent = count;
+
+// Create buttons
+const increaseBtn = document.createElement("button");
+increaseBtn.textContent = "+";
+
+const decreaseBtn = document.createElement("button");
+decreaseBtn.textContent = "-";
+
+const resetBtn = document.createElement("button");
+resetBtn.textContent = "Reset";
+
+// Add elements to page
+document.body.appendChild(counterTitle);
+document.body.appendChild(counterDisplay);
+document.body.appendChild(increaseBtn);
+document.body.appendChild(decreaseBtn);
+document.body.appendChild(resetBtn);
+
+// Update counter display
+function updateCounter() {
+    counterDisplay.textContent = count;
+}
+
+// Increase count
+increaseBtn.addEventListener("click", () => {
+    count++;
+    updateCounter();
+});
+
+// Decrease count
+decreaseBtn.addEventListener("click", () => {
+    if (count > 0) {
+        count--;
+        updateCounter();
+    }
+});
+
+// Reset count
+resetBtn.addEventListener("click", () => {
+    count = 0;
+    updateCounter();
+});
+
+
+
+
+// =====================================
+// TASK 10.2 - EXERCISE 1: EVENT OBJECT
+// =====================================
+
+// Mouse and click events
+document.addEventListener("click", function(event) {
+
+    // Element that was clicked
+    console.log("Target:", event.target);
+
+    // Element listening for the event
+    console.log("Current Target:", event.currentTarget);
+
+    // Event type
+    console.log("Type:", event.type);
+
+    // Mouse position
+    console.log("Position:", event.clientX, event.clientY);
+
+});
+
+// Keyboard events
+document.addEventListener("keydown", function(event) {
+
+    console.log("Key:", event.key);
+    console.log("Code:", event.code);
+    console.log("Shift:", event.shiftKey);
+    console.log("Ctrl:", event.ctrlKey);
+    console.log("Alt:", event.altKey);
+
+});
+
+
+    
+// =====================================
+// EXERCISE 2: KEYBOARD SHORTCUTS
+// =====================================
+
+const shortcutForm = document.querySelector("#contact-form");
+
+document.addEventListener("keydown", function(event) {
+
+    // Ctrl + S: Show Saved message
+    if (event.ctrlKey && event.key.toLowerCase() === "s") {
+
+        event.preventDefault();
+
+        alert("Saved!");
+    }
+
+    // Escape: Clear all form inputs
+    if (event.key === "Escape") {
+
+        const inputs = shortcutForm.querySelectorAll("input");
+
+        inputs.forEach(input => {
+            input.value = "";
+        });
+
+        console.log("All form inputs cleared!");
+    }
+
+    // Ctrl + Enter: Submit form
+    if (event.ctrlKey && event.key === "Enter") {
+
+        event.preventDefault();
+
+        shortcutForm.requestSubmit();
+
+        console.log("Form submitted!");
+    }
+
+});
+
+
+shortcutForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+    console.log("Contact form submitted successfully!");
+});
+
+
+
+// =====================================
+// TASK 10.3 - EXERCISE 1: EVENT BUBBLING
+// =====================================
+
+// Create nested HTML elements
+const bubblingContainer = document.createElement("div");
+
+bubblingContainer.innerHTML = `
+    <div id="grandparent">
+        Grandparent
+        <div id="parent">
+            Parent
+            <div id="child">
+                Child
+            </div>
+        </div>
+    </div>
+`;
+
+document.body.appendChild(bubblingContainer);
+
+// Grandparent event
+document.getElementById("grandparent").addEventListener("click", () => {
+    console.log("Grandparent clicked");
+});
+
+// Parent event
+document.getElementById("parent").addEventListener("click", () => {
+    console.log("Parent clicked");
+});
+
+// Child event
+document.getElementById("child").addEventListener("click", () => {
+    console.log("Child clicked");
+});
+
+
+// =====================================
+// TASK 10.3 - EXERCISE 2: EVENT DELEGATION
+// =====================================
+
+// Create task list container
+const taskSection = document.createElement("section");
+
+taskSection.innerHTML = `
+    <h2>My Delegated Task List</h2>
+
+    <form id="delegated-task-form">
+        <input
+            type="text"
+            id="delegated-task-input"
+            placeholder="Enter a new task"
+            required
+        >
+        <button type="submit">Add Task</button>
+    </form>
+
+    <ul id="delegated-task-list">
+        <li>
+            <span>Learn JavaScript</span>
+            <button type="button" data-action="delete">Delete</button>
+        </li>
+
+        <li>
+            <span>Practise DOM</span>
+            <button type="button" data-action="delete">Delete</button>
+        </li>
+
+        <li>
+            <span>Build a To-Do App</span>
+            <button type="button" data-action="delete">Delete</button>
+        </li>
+    </ul>
+`;
+
+document.body.appendChild(taskSection);
+
+// Select elements
+const delegatedList = document.querySelector("#delegated-task-list");
+const delegatedForm = document.querySelector("#delegated-task-form");
+const delegatedInput = document.querySelector("#delegated-task-input");
+
+// ONE event listener on the parent UL
+delegatedList.addEventListener("click", function(event) {
+
+    // Find the closest list item
+    const listItem = event.target.closest("li");
+
+    // Make sure the item belongs to our list
+    if (!listItem || !delegatedList.contains(listItem)) {
+        return;
+    }
+
+    // Check whether the delete button was clicked
+    const deleteButton = event.target.closest(
+        'button[data-action="delete"]'
+    );
+
+    if (deleteButton && listItem.contains(deleteButton)) {
+
+        // Delete the task
+        listItem.remove();
+
+        console.log("Task deleted!");
+
+    } else {
+
+        // Toggle completed class
+        listItem.classList.toggle("completed");
+
+        console.log("Task completion changed!");
+    }
+});
+
+// Add new tasks
+delegatedForm.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const taskText = delegatedInput.value.trim();
+
+    if (taskText === "") {
+        return;
+    }
+
+    // Create new list item
+    const newTask = document.createElement("li");
+
+    newTask.innerHTML = `
+        <span></span>
+        <button type="button" data-action="delete">Delete</button>
+    `;
+
+    // Safely insert user-provided text
+    newTask.querySelector("span").textContent = taskText;
+
+    // Add to list
+    delegatedList.appendChild(newTask);
+
+    // Clear input
+    delegatedInput.value = "";
+
+    console.log("New task added!");
+});
+
+
+
+// =====================================
+// EXERCISE 3: TASK LIST STYLING
+// =====================================
+
+const taskStyle = document.createElement("style");
+
+taskStyle.textContent = `
+    #delegated-task-list li {
+        padding: 10px;
+        margin: 8px 0;
+        background: #f1f5f9;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 6px;
+    }
+
+    #delegated-task-list li.completed span {
+        text-decoration: line-through;
+        color: gray;
+    }
+
+    #delegated-task-list button {
+        cursor: pointer;
+        padding: 5px 10px;
+    }
+`;
+
+document.head.appendChild(taskStyle);
+
+
+
+
+
 
