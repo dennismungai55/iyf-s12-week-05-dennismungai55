@@ -118,3 +118,210 @@ const body = footer.parentElement;
 
 console.log("5. Body:", body);
 
+
+// =====================================
+// TASK 9.3 - EXERCISE 1: TEXT CONTENT
+// =====================================
+
+const h1 = document.querySelector("h1");
+
+// Reading text
+console.log("Text content:", h1.textContent);
+console.log("Inner text:", h1.innerText);
+
+// Modifying text
+h1.textContent = "New Title";
+
+console.log("Updated heading:", h1.textContent);
+
+
+
+// =====================================
+// EXERCISE 2: HTML CONTENT
+// =====================================
+
+const article = document.querySelector("article");
+
+// Reading HTML
+console.log("Original HTML:", article.innerHTML);
+
+// Modifying HTML
+article.innerHTML = `
+    <h2>Updated Article</h2>
+    <p>This is new content.</p>
+`;
+
+// Security practice
+const userInput = `<img src="x" onerror="alert('hacked!')">`;
+
+// Dangerous: executes injected HTML
+// Do not use with untrusted input.
+// article.innerHTML = userInput;
+
+// Safe: displays input as text
+article.textContent = userInput;
+
+
+
+// =====================================
+// EXERCISE 3: ATTRIBUTES
+// =====================================
+
+const link = document.querySelector(".nav-link");
+
+// Get attribute
+console.log("Link href:", link.getAttribute("href"));
+console.log("Link URL:", link.href);
+
+// Set attribute
+link.setAttribute("href", "https://developer.mozilla.org");
+
+// Check attribute
+console.log("Has target:", link.hasAttribute("target"));
+
+// Remove attribute
+link.removeAttribute("target");
+
+// Data attributes example
+// First create an element with data attributes
+const element = document.createElement("div");
+
+element.dataset.id = "123";
+element.dataset.category = "tech";
+
+document.body.appendChild(element);
+
+console.log("ID:", element.dataset.id);
+console.log("Category:", element.dataset.category);
+
+// Create another data attribute
+element.dataset.newAttr = "value";
+
+console.log("New attribute:", element.dataset.newAttr);
+
+
+
+// =====================================
+// EXERCISE 4: STYLES
+// =====================================
+
+const container = document.querySelector(".container");
+
+// Inline styles
+container.style.backgroundColor = "#f0f0f0";
+container.style.padding = "30px";
+container.style.borderRadius = "8px";
+
+// Multiple styles
+Object.assign(container.style, {
+    backgroundColor: "#333",
+    color: "white",
+    padding: "20px"
+});
+
+
+
+// =====================================
+// TASK 9.4 - EXERCISE 1: CREATING ELEMENTS
+// =====================================
+
+// Create a new paragraph
+const newParagraph = document.createElement("p");
+
+newParagraph.textContent = "This is a new paragraph!";
+newParagraph.className = "content highlight";
+
+// Select the article
+const article = document.querySelector("article");
+
+// Add paragraph at the end
+article.appendChild(newParagraph);
+
+// Create another paragraph
+const anotherParagraph = document.createElement("p");
+anotherParagraph.textContent = "I am inserted before the first paragraph.";
+
+// Insert before the first paragraph
+const firstParagraph = article.querySelector("p");
+article.insertBefore(anotherParagraph, firstParagraph);
+
+// Modern insertion methods
+const thirdParagraph = document.createElement("p");
+thirdParagraph.textContent = "Added using prepend!";
+article.prepend(thirdParagraph);
+
+const fourthParagraph = document.createElement("p");
+fourthParagraph.textContent = "Added using append!";
+article.append(fourthParagraph);
+
+
+
+// =====================================
+// EXERCISE 2: REMOVING ELEMENTS
+// =====================================
+
+// Remove an element
+const footer = document.querySelector("footer");
+
+// Uncomment to test footer removal
+// footer.remove();
+
+
+// Remove the last navigation item
+const nav = document.querySelector("nav");
+
+const lastLink = nav.querySelector("li:last-child");
+
+
+// =====================================
+// EXERCISE 3: CLONING ELEMENTS
+// =====================================
+
+const navItem = document.querySelector(".nav-link").parentElement;
+
+// Clone the navigation item
+const clone = navItem.cloneNode(true);
+
+// Change its text
+clone.querySelector("a").textContent = "New Link";
+
+// Add the cloned item to navigation
+document.querySelector(".nav-list").appendChild(clone);
+
+
+
+// =====================================
+// EXERCISE 4: DYNAMIC NAVIGATION
+// =====================================
+
+function addNavItem(text, href) {
+
+    // Create a list item
+    const li = document.createElement("li");
+
+    // Create a link
+    const a = document.createElement("a");
+
+    // Add link text
+    a.textContent = text;
+
+    // Add link URL
+    a.href = href;
+
+    // Give the link a class
+    a.className = "nav-link";
+
+    // Put the link inside the list item
+    li.appendChild(a);
+
+    // Add the list item to navigation
+    document.querySelector(".nav-list").appendChild(li);
+}
+
+// Test the function
+addNavItem("Blog", "/blog");
+addNavItem("Portfolio", "/portfolio");
+```
+
+
+
